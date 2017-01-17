@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Павел Докучаев](https://up.htmlacademy.ru/javascript/8/user/231527).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Ермаков](https://htmlacademy.ru/profile/id195904).
 
 ---
 
