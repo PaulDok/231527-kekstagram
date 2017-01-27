@@ -46,7 +46,7 @@ var resizeStep = 25;
 
 var resizeImage = function (delta) {
   var oldSizeValue = resizeValueField.value;
-  oldSizeValue = parseInt(oldSizeValue.slice(0, -1));
+  oldSizeValue = parseInt(oldSizeValue.slice(0, -1), 10);
   var newSizeValue = Math.min(100, oldSizeValue + delta);
   newSizeValue = Math.max(25, newSizeValue);
   changeScaling(newSizeValue);
@@ -72,5 +72,5 @@ var changeScaling = function (scalePercent) {
 };
 
 // Initialize: Reset sizing field value to 100%
-resizeValueField.value = "100%";
+resizeValueField.value = '100%';
 changeScaling(100);
