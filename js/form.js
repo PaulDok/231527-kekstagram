@@ -1,9 +1,10 @@
 'use strict';
 
 // Variables
-var editOverlay = document.getElementsByClassName('upload-overlay')[0];
-var uploadOverlay = document.getElementById('upload-select-image');
-var uploadSelectInput = document.getElementById('upload-file');
+var uploadDiv = document.getElementsByClassName('upload')[0];
+var editOverlay = uploadDiv.getElementsByClassName('upload-overlay')[0];
+var uploadOverlay = uploadDiv.getElementsByClassName('upload-image')[0];
+var uploadSelectInput = uploadOverlay.getElementsByClassName('upload-input')[0];
 var uploadFormCancelButton = editOverlay.getElementsByClassName('upload-form-cancel')[0];
 var filterOptionButtons = document.getElementsByName('upload-filter');
 var image = editOverlay.getElementsByClassName('filter-image-preview')[0];
@@ -32,8 +33,8 @@ uploadSelectInput.addEventListener('click', showEditAndHideUpload);
 uploadFormCancelButton.addEventListener('click', showUploadAndHideEdit);
 
 // Filters application
-var addFilterToImage = function () {
-  image.className = imageBaseClass + ' filter-' + this.value;
+var addFilterToImage = function (event) {
+  image.className = imageBaseClass + ' filter-' + event.target.value;
 };
 
 for (var i = 0; i < filterOptionButtons.length; i++) {
