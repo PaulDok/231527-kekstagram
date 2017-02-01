@@ -70,7 +70,7 @@ var isMinusEvent = function (event) {
     event.keyCode && event.keyCode === MINUS_KEY_CODE && event.shiftKey);
 };
 
-var editKeydownHandler = function(event) {
+var editKeydownHandler = function (event) {
   if ((event.target === uploadFormCancelButton || event.target === uploadFormSubmitButton)
     && isActivateEvent(event)) {
     showUploadAndHideEdit();
