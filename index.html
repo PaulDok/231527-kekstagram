@@ -27,12 +27,12 @@
     <button class="upload-submit upload-control" type="submit"></button>
   </form>
 
-  <div class="upload-overlay">
+  <div class="upload-overlay" role="dialog" aria-labelledby="Редактирование фотографии">
     <form class="upload-form upload-filter" id="upload-filter" method="post" enctype="multipart/form-data">
       <fieldset class="upload-resize-controls">
-        <button type="button" class="upload-resize-control upload-resize-controls-button upload-resize-controls-button-dec">–</button><!--
+        <button type="button" class="upload-resize-control upload-resize-controls-button upload-resize-controls-button-dec" role="button" aria-label="Уменьшить масштаб" aria-pressed="false" tabindex="0">–</button><!--
         --><input type="text" class="upload-resize-control upload-resize-controls-value" value="55%" readonly /><!--
-        --><button type="button" class="upload-resize-control upload-resize-controls-button upload-resize-controls-button-inc">+</button>
+        --><button type="button" class="upload-resize-control upload-resize-controls-button upload-resize-controls-button-inc" role="button" aria-label="Увеличить масштаб" aria-pressed="false" tabindex="0">+</button>
       </fieldset>
 
       <div class="upload-form-preview">
@@ -40,7 +40,7 @@
         <img src="img/upload-default-image.png" class="filter-image-preview">
       </div>
 
-      <fieldset class="upload-filter-controls">
+      <fieldset class="upload-filter-controls" role="radiogroup" aria-label="Фильтры">
         <div class="upload-filter-level">
           <div class="upload-filter-level-line">
             <div class="upload-filter-level-pin"></div>
@@ -48,37 +48,37 @@
           </div>
         </div>
 
-        <input type="radio" name="upload-filter" id="upload-filter-none" value="none" checked>
+        <input type="radio" name="upload-filter" id="upload-filter-none" value="none" checked role="radio" aria-label="Оригинал">
         <label class="upload-filter-label" for="upload-filter-none">
           <div class="upload-filter-preview"></div>
           Оригинал
         </label>
 
-        <input type="radio" name="upload-filter" id="upload-filter-chrome" value="chrome">
+        <input type="radio" name="upload-filter" id="upload-filter-chrome" value="chrome" role="radio" aria-label="Хром">
         <label class="upload-filter-label upload-filter-label-chrome" for="upload-filter-chrome">
           <div class="upload-filter-preview"></div>
           Хром
         </label>
 
-        <input type="radio" name="upload-filter" id="upload-filter-sepia" value="sepia">
+        <input type="radio" name="upload-filter" id="upload-filter-sepia" value="sepia" role="radio" aria-label="Сепия">
         <label class="upload-filter-label upload-filter-label-sepia" for="upload-filter-sepia">
           <div class="upload-filter-preview"></div>
           Сепия
         </label>
 
-        <input type="radio" name="upload-filter" id="upload-filter-marvin" value="marvin">
+        <input type="radio" name="upload-filter" id="upload-filter-marvin" value="marvin" role="radio" aria-label="Марвин">
         <label class="upload-filter-label upload-filter-label-marvin" for="upload-filter-marvin">
           <div class="upload-filter-preview"></div>
           Марвин
         </label>
 
-        <input type="radio" name="upload-filter" id="upload-filter-phobos" value="phobos">
+        <input type="radio" name="upload-filter" id="upload-filter-phobos" value="phobos" role="radio" aria-label="Фобос">
         <label class="upload-filter-label upload-filter-label-phobos" for="upload-filter-phobos">
           <div class="upload-filter-preview"></div>
           Фобос
         </label>
 
-        <input type="radio" name="upload-filter" id="upload-filter-heat" value="heat">
+        <input type="radio" name="upload-filter" id="upload-filter-heat" value="heat" role="radio" aria-label="Зной">
         <label class="upload-filter-label upload-filter-label-heat" for="upload-filter-heat">
           <div class="upload-filter-preview"></div>
           Зной
@@ -87,8 +87,8 @@
 
       <textarea class="upload-form-description" name="upload-description" placeholder="Ваш комментарий..."></textarea>
 
-      <button class="upload-form-cancel" type="reset" id="upload-cancel"></button>
-      <button class="upload-form-submit" type="submit" id="upload-submit">Отправить</button>
+      <button class="upload-form-cancel" type="reset" id="upload-cancel" role="button" aria-pressed="false" tabindex="1" aria-label="Отмена"></button>
+      <button class="upload-form-submit" type="submit" id="upload-submit" role="button" aria-pressed="false" tabindex="1" aria-label="Отправить">Отправить</button>
     </form>
   </div>
 
