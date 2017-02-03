@@ -45,29 +45,29 @@ showUploadAndHideEdit();
 
 // Key events service functions
 var isActivateEvent = function (event) {
-  return event.keyCode && event.keyCode === ENTER_KEY_CODE;
+  return event && event.keyCode === ENTER_KEY_CODE;
 };
 
 var isEscapeEvent = function (event) {
-  return event.keyCode && event.keyCode === ESCAPE_KEY_CODE;
+  return event && event.keyCode === ESCAPE_KEY_CODE;
 };
 
 var isLeftEvent = function (event) {
-  return event.keyCode && event.keyCode === LEFT_KEY_CODE;
+  return event && event.keyCode === LEFT_KEY_CODE;
 };
 
 var isRightEvent = function (event) {
-  return event.keyCode && event.keyCode === RIGHT_KEY_CODE;
+  return event && event.keyCode === RIGHT_KEY_CODE;
 };
 
 var isPlusEvent = function (event) {
-  return (event.keyCode && event.keyCode === PLUS_NUMPAD_KEY_CODE ||
-    event.keyCode && event.keyCode === PLUS_KEY_CODE && event.shiftKey);
+  return (event && event.keyCode === PLUS_NUMPAD_KEY_CODE ||
+    event && event.keyCode === PLUS_KEY_CODE && event.shiftKey);
 };
 
 var isMinusEvent = function (event) {
   return (event.keyCode && event.keyCode === MINUS_NUMPAD_KEY_CODE ||
-    event.keyCode && event.keyCode === MINUS_KEY_CODE && event.shiftKey);
+    event && event.keyCode === MINUS_KEY_CODE && event.shiftKey);
 };
 
 var editKeydownHandler = function (event) {
