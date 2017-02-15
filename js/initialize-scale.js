@@ -8,6 +8,7 @@ window.createScale = function (element, step, value) {
   var descriptionTextField = document.querySelector('.upload-form-description');
   var currentScale = value;
 
+  var ENTER_KEY_CODE = 13;
   var PLUS_NUMPAD_KEY_CODE = 107;
   var MINUS_NUMPAD_KEY_CODE = 109;
   var PLUS_KEY_CODE = 187;
