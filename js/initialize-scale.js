@@ -8,7 +8,7 @@ window.createScale = (function () {
   var resizeDecreaseButton = null;
   var resizeValueField = null;
   var currentScale = null;
-  var step = null;
+  var stepVar = null;
 
   var ENTER_KEY_CODE = 13;
   var PLUS_NUMPAD_KEY_CODE = 107;
@@ -39,13 +39,13 @@ window.createScale = (function () {
   };
 
   var resizeImageUp = function () {
-    currentScale += step;
+    currentScale += stepVar;
     currentScale = Math.min(100, currentScale);
     changeScaling();
   };
 
   var resizeImageDown = function () {
-    currentScale -= step;
+    currentScale -= stepVar;
     currentScale = Math.max(25, currentScale);
     changeScaling();
   };
@@ -61,12 +61,12 @@ window.createScale = (function () {
     }
   };
 
-  var initializeVariables = function (element, stepIn, value) {
+  var initializeVariables = function (element, step, value) {
     resizeIncreaseButton = element.getElementsByClassName('upload-resize-controls-button-inc')[0];
     resizeDecreaseButton = element.getElementsByClassName('upload-resize-controls-button-dec')[0];
     resizeValueField = element.getElementsByClassName('upload-resize-controls-value')[0];
     currentScale = value;
-    step = stepIn;
+    stepVar = step;
   };
 
   var addListeners = function () {

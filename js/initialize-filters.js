@@ -4,8 +4,8 @@ window.initializeFilters = (function () {
   var descriptionTextField = document.querySelector('.upload-form-description');
   var currentFilter = null;
   var currentFilterIndex = 0;
-  var image = null;
-  var filters = null;
+  var imageVar = null;
+  var filtersVar = null;
 
   var LEFT_KEY_CODE = 37;
   var RIGHT_KEY_CODE = 39;
@@ -22,18 +22,18 @@ window.initializeFilters = (function () {
   // Filter application
   var addFilterToImage = function (event) {
     if (currentFilter) {
-      image.classList.remove(currentFilter);
+      imageVar.classList.remove(currentFilter);
     }
 
     currentFilter = 'filter-' + event.target.value;
-    image.classList.add(currentFilter);
+    imageVar.classList.add(currentFilter);
 
     updateCurrentFilterOption(event.target);
   };
 
   var updateCurrentFilterOption = function (option) {
     var i = 0;
-    while (filters[i] !== option && i < filters.length) {
+    while (filtersVar[i] !== option && i < filtersVar.length) {
       i++;
     }
     currentFilterIndex = i;
@@ -41,10 +41,10 @@ window.initializeFilters = (function () {
 
   var nextFilter = function () {
     currentFilterIndex++;
-    if (currentFilterIndex >= filters.length) {
-      currentFilterIndex = filters.length - 1;
+    if (currentFilterIndex >= filtersVar.length) {
+      currentFilterIndex = filtersVar.length - 1;
     }
-    return filters[currentFilterIndex];
+    return filtersVar[currentFilterIndex];
   };
 
   var previousFilter = function () {
@@ -52,7 +52,7 @@ window.initializeFilters = (function () {
     if (currentFilterIndex < 0) {
       currentFilterIndex = 0;
     }
-    return filters[currentFilterIndex];
+    return filtersVar[currentFilterIndex];
   };
 
   // Left / Right Keydown handler
@@ -68,19 +68,19 @@ window.initializeFilters = (function () {
     }
   };
 
-  var initalizeVariables = function (imageIn, filtersIn) {
-    image = imageIn;
-    filters = filtersIn;
+  var initalizeVariables = function (image, filters) {
+    imageVar = image;
+    filtersVar = filters;
   };
 
   var addListeners = function () {
     // EventListeners registration
-    for (var i = 0; i < filters.length; i++) {
-      filters[i].addEventListener('click', addFilterToImage);
+    for (var i = 0; i < filtersVar.length; i++) {
+      filtersVar[i].addEventListener('click', addFilterToImage);
     }
     document.addEventListener('keydown', filtersKeydownHandler);
 
-    filters[0].click();
+    filtersVar[0].click();
   };
 
   return function (image, filters) {
