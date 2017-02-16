@@ -1,12 +1,14 @@
 'use strict';
 
-window.createScale = function (element, step, value) {
+window.createScale = (function () {
   var image = document.getElementsByClassName('filter-image-preview')[0];
-  var resizeIncreaseButton = element.getElementsByClassName('upload-resize-controls-button-inc')[0];
-  var resizeDecreaseButton = element.getElementsByClassName('upload-resize-controls-button-dec')[0];
-  var resizeValueField = element.getElementsByClassName('upload-resize-controls-value')[0];
   var descriptionTextField = document.querySelector('.upload-form-description');
-  var currentScale = value;
+
+  var resizeIncreaseButton = null;
+  var resizeDecreaseButton = null;
+  var resizeValueField = null;
+  var currentScale = null;
+  var step = null;
 
   var ENTER_KEY_CODE = 13;
   var PLUS_NUMPAD_KEY_CODE = 107;
@@ -59,9 +61,24 @@ window.createScale = function (element, step, value) {
     }
   };
 
-  resizeIncreaseButton.addEventListener('click', resizeImageUp);
-  resizeDecreaseButton.addEventListener('click', resizeImageDown);
-  document.addEventListener('keydown', zoomKeydownHandler);
+  var initializeVariables = function (element, stepIn, value) {
+    resizeIncreaseButton = element.getElementsByClassName('upload-resize-controls-button-inc')[0];
+    resizeDecreaseButton = element.getElementsByClassName('upload-resize-controls-button-dec')[0];
+    resizeValueField = element.getElementsByClassName('upload-resize-controls-value')[0];
+    currentScale = value;
+    step = stepIn;
+  };
 
-  changeScaling();
-};
+  var addListeners = function () {
+    resizeIncreaseButton.addEventListener('click', resizeImageUp);
+    resizeDecreaseButton.addEventListener('click', resizeImageDown);
+    document.addEventListener('keydown', zoomKeydownHandler);
+
+    changeScaling();
+  };
+
+  return function (element, step, value) {
+    initializeVariables(element, step, value);
+    addListeners();
+  };
+})();

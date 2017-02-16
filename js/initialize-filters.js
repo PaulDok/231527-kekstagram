@@ -1,9 +1,11 @@
 'use strict';
 
-window.initializeFilters = function (image, filters) {
+window.initializeFilters = (function () {
   var descriptionTextField = document.querySelector('.upload-form-description');
   var currentFilter = null;
   var currentFilterIndex = 0;
+  var image = null;
+  var filters = null;
 
   var LEFT_KEY_CODE = 37;
   var RIGHT_KEY_CODE = 39;
@@ -66,11 +68,23 @@ window.initializeFilters = function (image, filters) {
     }
   };
 
-  // EventListeners registration
-  for (var i = 0; i < filters.length; i++) {
-    filters[i].addEventListener('click', addFilterToImage);
-  }
-  document.addEventListener('keydown', filtersKeydownHandler);
+  var initalizeVariables = function (imageIn, filtersIn) {
+    image = imageIn;
+    filters = filtersIn;
+  };
 
-  filters[0].click();
-};
+  var addListeners = function () {
+    // EventListeners registration
+    for (var i = 0; i < filters.length; i++) {
+      filters[i].addEventListener('click', addFilterToImage);
+    }
+    document.addEventListener('keydown', filtersKeydownHandler);
+
+    filters[0].click();
+  };
+
+  return function (image, filters) {
+    initalizeVariables(image, filters);
+    addListeners();
+  };
+})();
