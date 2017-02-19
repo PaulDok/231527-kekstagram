@@ -1,90 +1,59 @@
 'use strict';
 
 window.initializeFilters = (function () {
-  var descriptionTextField = document.querySelector('.upload-form-description');
-  var currentFilter = null;
-  var currentFilterIndex = 0;
-  var imageVar = null;
-  var filtersVar = null;
-
-  var LEFT_KEY_CODE = 37;
-  var RIGHT_KEY_CODE = 39;
-
-  // Key events service functions
-  var isLeftEvent = function (event) {
-    return event && event.keyCode === LEFT_KEY_CODE;
-  };
-
-  var isRightEvent = function (event) {
-    return event && event.keyCode === RIGHT_KEY_CODE;
-  };
-
-  // Filter application
-  var addFilterToImage = function (event) {
-    if (currentFilter) {
-      imageVar.classList.remove(currentFilter);
-    }
-
-    currentFilter = 'filter-' + event.target.value;
-    imageVar.classList.add(currentFilter);
-
-    updateCurrentFilterOption(event.target);
-  };
-
-  var updateCurrentFilterOption = function (option) {
+  var getNewIndex = function (array, element) {
     var i = 0;
-    while (filtersVar[i] !== option && i < filtersVar.length) {
+    while (array[i] !== element && i < array.length) {
       i++;
     }
-    currentFilterIndex = i;
+    return i;
   };
 
-  var nextFilter = function () {
-    currentFilterIndex++;
-    if (currentFilterIndex >= filtersVar.length) {
-      currentFilterIndex = filtersVar.length - 1;
-    }
-    return filtersVar[currentFilterIndex];
-  };
+  return function (image, filters, callback, exceptions) {
+    var currentFilter = null;
+    var currentFilterIndex = 0;
 
-  var previousFilter = function () {
-    currentFilterIndex--;
-    if (currentFilterIndex < 0) {
-      currentFilterIndex = 0;
-    }
-    return filtersVar[currentFilterIndex];
-  };
-
-  // Left / Right Keydown handler
-  var filtersKeydownHandler = function (event) {
-    if (event.target !== descriptionTextField) {
-      if (isLeftEvent(event)) {
-        event.preventDefault();
-        previousFilter().click();
-      } else if (isRightEvent(event)) {
-        event.preventDefault();
-        nextFilter().click();
+    var nextFilter = function () {
+      currentFilterIndex++;
+      if (currentFilterIndex >= filters.length) {
+        currentFilterIndex = filters.length - 1;
       }
-    }
-  };
+      return filters[currentFilterIndex];
+    };
 
-  var initalizeVariables = function (image, filters) {
-    imageVar = image;
-    filtersVar = filters;
-  };
+    var previousFilter = function () {
+      currentFilterIndex--;
+      if (currentFilterIndex < 0) {
+        currentFilterIndex = 0;
+      }
+      return filters[currentFilterIndex];
+    };
 
-  var addListeners = function () {
+    var modifyFilter = function (event) {
+      callback(event.target.value, currentFilter);
+      currentFilter = event.target.value;
+      currentFilterIndex = getNewIndex(filters, event.target);
+    };
+
+    // Left / Right Keydown handler
+    var filtersKeydownHandler = function (event) {
+      if (!exceptions.includes(event.target)) {
+        if (window.eventChecker.isLeftEvent(event)) {
+          event.preventDefault();
+          previousFilter().click();
+        } else if (window.eventChecker.isRightEvent(event)) {
+          event.preventDefault();
+          nextFilter().click();
+        }
+      }
+    };
+
     // EventListeners registration
-    for (var i = 0; i < filtersVar.length; i++) {
-      filtersVar[i].addEventListener('click', addFilterToImage);
+    for (var i = 0; i < filters.length; i++) {
+      filters[i].addEventListener('click', modifyFilter);
     }
     document.addEventListener('keydown', filtersKeydownHandler);
 
-    filtersVar[0].click();
-  };
-
-  return function (image, filters) {
-    initalizeVariables(image, filters);
-    addListeners();
+    filters[0].click();
   };
 })();
