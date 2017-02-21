@@ -1,14 +1,6 @@
 'use strict';
 
 window.initializeFilters = (function () {
-  var getNewIndex = function (array, element) {
-    var i = 0;
-    while (array[i] !== element && i < array.length) {
-      i++;
-    }
-    return i;
-  };
-
   return function (image, filters, callback, exceptions) {
     var currentFilter = null;
     var currentFilterIndex = 0;
@@ -32,12 +24,12 @@ window.initializeFilters = (function () {
     var modifyFilter = function (event) {
       callback(event.target.value, currentFilter);
       currentFilter = event.target.value;
-      currentFilterIndex = getNewIndex(filters, event.target);
+      currentFilterIndex = filters.indexOf(event.target);
     };
 
     // Left / Right Keydown handler
     var filtersKeydownHandler = function (event) {
-      if (!exceptions.includes(event.target)) {
+      if (exceptions.indexOf(event.target) === -1) {
         if (window.eventChecker.isLeftEvent(event)) {
           event.preventDefault();
           previousFilter().click();

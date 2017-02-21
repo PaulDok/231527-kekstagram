@@ -21,10 +21,10 @@ window.initializeScale = (function () {
     // + / - Keydown handler
     var zoomKeydownHandler = function (event) {
       if ((event.target === resizeIncreaseButton && window.eventChecker.isActivateEvent(event)) ||
-        (window.eventChecker.isPlusEvent(event) && !exceptions.includes(event.target))) {
+        (window.eventChecker.isPlusEvent(event) && (exceptions.indexOf(event.target) === -1))) {
         resizeIncreaseButton.click();
       } else if ((event.target === resizeDecreaseButton && window.eventChecker.isActivateEvent(event)) ||
-        (window.eventChecker.isMinusEvent(event) && !exceptions.includes(event.target))) {
+        (window.eventChecker.isMinusEvent(event) && (exceptions.indexOf(event.target) === -1))) {
         resizeDecreaseButton.click();
       }
     };

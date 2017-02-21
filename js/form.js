@@ -9,7 +9,7 @@
   var uploadFormSubmitButton = editOverlay.getElementsByClassName('upload-form-submit')[0];
   var uploadSelectInput = uploadOverlay.getElementsByClassName('upload-input')[0];
   var descriptionTextField = editOverlay.querySelector('.upload-form-description');
-  var filterOptionButtons = document.getElementsByName('upload-filter');
+  var filterOptionButtons = [].slice.call(document.getElementsByName('upload-filter'));
   var image = editOverlay.getElementsByClassName('filter-image-preview')[0];
   var resizeControls = editOverlay.getElementsByClassName('upload-resize-controls')[0];
   var resizeValueField = resizeControls.getElementsByClassName('upload-resize-controls-value')[0];
