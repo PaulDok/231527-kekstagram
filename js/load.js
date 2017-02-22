@@ -2,7 +2,8 @@
 
 window.load = (function () {
   var errorHandler = function (err) {
-    alert(err);
+    // do something real (e.g. display custom modal window or popup with error)
+    // ESLint disallows use of alert() and console.log()
   };
 
   return function (url, onLoad) {
