@@ -1,84 +1,38 @@
 'use strict';
 
-window.createScale = (function () {
-  var image = document.getElementsByClassName('filter-image-preview')[0];
-  var descriptionTextField = document.querySelector('.upload-form-description');
+window.initializeScale = (function () {
+  return function (element, step, value, callback, exceptions) {
+    var resizeIncreaseButton = element.getElementsByClassName('upload-resize-controls-button-inc')[0];
+    var resizeDecreaseButton = element.getElementsByClassName('upload-resize-controls-button-dec')[0];
 
-  var resizeIncreaseButton = null;
-  var resizeDecreaseButton = null;
-  var resizeValueField = null;
-  var currentScale = null;
-  var stepVar = null;
+    // Resizing functions
+    var resizeImageUp = function () {
+      value += step;
+      value = Math.min(100, value);
+      callback(value);
+    };
 
-  var ENTER_KEY_CODE = 13;
-  var PLUS_NUMPAD_KEY_CODE = 107;
-  var MINUS_NUMPAD_KEY_CODE = 109;
-  var PLUS_KEY_CODE = 187;
-  var MINUS_KEY_CODE = 189;
+    var resizeImageDown = function () {
+      value -= step;
+      value = Math.max(25, value);
+      callback(value);
+    };
 
-  // Key events service functions
-  var isActivateEvent = function (event) {
-    return event && event.keyCode === ENTER_KEY_CODE;
-  };
+    // + / - Keydown handler
+    var zoomKeydownHandler = function (event) {
+      if ((event.target === resizeIncreaseButton && window.eventChecker.isActivateEvent(event)) ||
+        (window.eventChecker.isPlusEvent(event) && (exceptions.indexOf(event.target) === -1))) {
+        resizeIncreaseButton.click();
+      } else if ((event.target === resizeDecreaseButton && window.eventChecker.isActivateEvent(event)) ||
+        (window.eventChecker.isMinusEvent(event) && (exceptions.indexOf(event.target) === -1))) {
+        resizeDecreaseButton.click();
+      }
+    };
 
-  var isPlusEvent = function (event) {
-    return (event && event.keyCode === PLUS_NUMPAD_KEY_CODE ||
-      event && event.keyCode === PLUS_KEY_CODE && event.shiftKey);
-  };
-
-  var isMinusEvent = function (event) {
-    return (event.keyCode && event.keyCode === MINUS_NUMPAD_KEY_CODE ||
-      event && event.keyCode === MINUS_KEY_CODE && event.shiftKey);
-  };
-
-  // Resizing functions
-  var changeScaling = function () {
-    var scaleStyleValue = currentScale / 100;
-    image.style.transform = 'scale(' + scaleStyleValue + ')';
-    resizeValueField.value = currentScale + '%';
-  };
-
-  var resizeImageUp = function () {
-    currentScale += stepVar;
-    currentScale = Math.min(100, currentScale);
-    changeScaling();
-  };
-
-  var resizeImageDown = function () {
-    currentScale -= stepVar;
-    currentScale = Math.max(25, currentScale);
-    changeScaling();
-  };
-
-  // + / - Keydown handler
-  var zoomKeydownHandler = function (event) {
-    if ((event.target === resizeIncreaseButton && isActivateEvent(event)) ||
-      (isPlusEvent(event) && event.target !== descriptionTextField)) {
-      resizeIncreaseButton.click();
-    } else if ((event.target === resizeDecreaseButton && isActivateEvent(event)) ||
-      (isMinusEvent(event) && event.target !== descriptionTextField)) {
-      resizeDecreaseButton.click();
-    }
-  };
-
-  var initializeVariables = function (element, step, value) {
-    resizeIncreaseButton = element.getElementsByClassName('upload-resize-controls-button-inc')[0];
-    resizeDecreaseButton = element.getElementsByClassName('upload-resize-controls-button-dec')[0];
-    resizeValueField = element.getElementsByClassName('upload-resize-controls-value')[0];
-    currentScale = value;
-    stepVar = step;
-  };
-
-  var addListeners = function () {
     resizeIncreaseButton.addEventListener('click', resizeImageUp);
     resizeDecreaseButton.addEventListener('click', resizeImageDown);
     document.addEventListener('keydown', zoomKeydownHandler);
 
-    changeScaling();
-  };
-
-  return function (element, step, value) {
-    initializeVariables(element, step, value);
-    addListeners();
+    callback(value);
   };
 })();

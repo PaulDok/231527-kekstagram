@@ -9,14 +9,11 @@
   var uploadFormSubmitButton = editOverlay.getElementsByClassName('upload-form-submit')[0];
   var uploadSelectInput = uploadOverlay.getElementsByClassName('upload-input')[0];
   var descriptionTextField = editOverlay.querySelector('.upload-form-description');
-  var filterOptionButtons = document.getElementsByName('upload-filter');
+  var filterOptionButtons = [].slice.call(document.getElementsByName('upload-filter'));
   var image = editOverlay.getElementsByClassName('filter-image-preview')[0];
   var resizeControls = editOverlay.getElementsByClassName('upload-resize-controls')[0];
-
+  var resizeValueField = resizeControls.getElementsByClassName('upload-resize-controls-value')[0];
   var resizeStep = 25;
-
-  var ENTER_KEY_CODE = 13;
-  var ESCAPE_KEY_CODE = 27;
 
   // Preparation
   var showUploadAndHideEdit = function () {
@@ -33,22 +30,13 @@
 
   showUploadAndHideEdit();
 
-  // Key events service functions
-  var isActivateEvent = function (event) {
-    return event && event.keyCode === ENTER_KEY_CODE;
-  };
-
-  var isEscapeEvent = function (event) {
-    return event && event.keyCode === ESCAPE_KEY_CODE;
-  };
-
   // Form open/close keydown handler
   var editKeydownHandler = function (event) {
     if ((event.target === uploadFormCancelButton || event.target === uploadFormSubmitButton)
-      && isActivateEvent(event)) {
+      && window.eventChecker.isActivateEvent(event)) {
       showUploadAndHideEdit();
     } else if (event.target !== descriptionTextField) {
-      if (isEscapeEvent(event)) {
+      if (window.eventChecker.isEscapeEvent(event)) {
         showUploadAndHideEdit();
       }
     }
@@ -58,9 +46,23 @@
   uploadSelectInput.addEventListener('click', showEditAndHideUpload);
   uploadFormCancelButton.addEventListener('click', showUploadAndHideEdit);
 
-  // Filters application
-  window.initializeFilters(image, filterOptionButtons);
+  // Image scaling
+  var adjustScale = function (scale) {
+    image.style.transform = 'scale(' + scale / 100 + ')';
+    resizeValueField.value = scale + '%';
+  };
 
-  // Image scaling: buttons
-  window.createScale(resizeControls, resizeStep, 100);
+  // Last argument is a list of exception page elements - we don't want the callback
+  // if keyboard events happen with target on them
+  window.initializeScale(resizeControls, resizeStep, 100, adjustScale, [descriptionTextField]);
+
+  // Filters application
+  var applyFilter = function (newFilter, oldFilter) {
+    if (oldFilter) {
+      image.classList.remove('filter-' + oldFilter);
+    }
+    image.classList.add('filter-' + newFilter);
+  };
+
+  window.initializeFilters(image, filterOptionButtons, applyFilter, [descriptionTextField]);
 })();
