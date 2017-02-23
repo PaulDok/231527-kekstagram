@@ -78,13 +78,13 @@
     return newPicture;
   };
 
-  var getRandomArrayElements = function(array, quantity) {
+  var getRandomArrayElements = function (array, quantity) {
     var tempArray = array.slice();
     var result = [];
     for (var i = 0; i < quantity; i++) {
-        var index = Math.floor(Math.random()*tempArray.length);
-        result.push(tempArray[index]);
-        tempArray.splice(index, 1);
+      var index = Math.floor(Math.random() * tempArray.length);
+      result.push(tempArray[index]);
+      tempArray.splice(index, 1);
     }
     return result;
   };
