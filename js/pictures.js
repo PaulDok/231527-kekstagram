@@ -6,6 +6,18 @@
   var picturesBlock = document.querySelector('.pictures');
   var templateElement = document.querySelector('#picture-template');
   var pictureTemplate = templateElement.content.querySelector('.picture');
+  var filters = document.querySelector('.filters');
+
+  var sortByCommentsNumber = function (a, b) {
+    var aComments = a.comments.length;
+    var bComments = b.comments.length;
+    if (aComments > bComments) {
+      return -1;
+    } else if (aComments < bComments) {
+      return 1;
+    }
+    return 0;
+  };
 
   var showGalleryOnEnter = function (event) {
     if (window.eventChecker.isActivateEvent(event) && event.target.classList.contains('picture')) {
@@ -15,15 +27,34 @@
 
   var onLoad = function (result) {
     pictures = result;
+    fillPicturesOnPage(pictures);
+
+    document.addEventListener('keydown', showGalleryOnEnter);
+    filters.classList.remove('hidden');
+    filters.addEventListener('change', changeFilter);
+  };
+
+  var changeFilter = function (event) {
+    switch (event.target.value) {
+      case 'popular':
+        fillPicturesOnPage(pictures);
+        break;
+      case 'new':
+        fillPicturesOnPage(getRandomArrayElements(pictures, 10));
+        break;
+      case 'discussed':
+        fillPicturesOnPage(getSortedPictures());
+        break;
+    }
+  };
+
+  var fillPicturesOnPage = function (array) {
     picturesBlock.innerHTML = '';
     var fragment = document.createDocumentFragment();
-
-    pictures.forEach(function (picture) {
+    array.forEach(function (picture) {
       fragment.appendChild(render(picture));
     });
-
     picturesBlock.appendChild(fragment);
-    document.addEventListener('keydown', showGalleryOnEnter);
   };
 
   var render = function (picture) {
@@ -45,6 +76,23 @@
     newPicture.addEventListener('click', showGalleryOnClick);
 
     return newPicture;
+  };
+
+  var getRandomArrayElements = function(array, quantity) {
+    var tempArray = array.slice();
+    var result = [];
+    for (var i = 0; i < quantity; i++) {
+        var index = Math.floor(Math.random()*tempArray.length);
+        result.push(tempArray[index]);
+        tempArray.splice(index, 1);
+    }
+    return result;
+  };
+
+  var getSortedPictures = function () {
+    var sortedPictures = pictures.slice();
+    sortedPictures.sort(sortByCommentsNumber);
+    return sortedPictures;
   };
 
   window.load(URL_PICTURES, onLoad);
