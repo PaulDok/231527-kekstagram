@@ -13,18 +13,19 @@
   var image = editOverlay.getElementsByClassName('filter-image-preview')[0];
   var resizeControls = editOverlay.getElementsByClassName('upload-resize-controls')[0];
   var resizeValueField = resizeControls.getElementsByClassName('upload-resize-controls-value')[0];
-  var resizeStep = 25;
+  var RESIZE_STEP = 25;
+  var INVISIBILITY_CLASS_NAME = 'invisible';
 
   // Preparation
   var showUploadAndHideEdit = function () {
-    editOverlay.classList.add('invisible');
-    uploadOverlay.classList.remove('invisible');
+    editOverlay.classList.add(INVISIBILITY_CLASS_NAME);
+    uploadOverlay.classList.remove(INVISIBILITY_CLASS_NAME);
     document.removeEventListener('keydown', editKeydownHandler);
   };
 
   var showEditAndHideUpload = function () {
-    uploadOverlay.classList.add('invisible');
-    editOverlay.classList.remove('invisible');
+    uploadOverlay.classList.add(INVISIBILITY_CLASS_NAME);
+    editOverlay.classList.remove(INVISIBILITY_CLASS_NAME);
     document.addEventListener('keydown', editKeydownHandler);
   };
 
@@ -54,7 +55,7 @@
 
   // Last argument is a list of exception page elements - we don't want the callback
   // if keyboard events happen with target on them
-  window.initializeScale(resizeControls, resizeStep, 100, adjustScale, [descriptionTextField]);
+  window.initializeScale(resizeControls, RESIZE_STEP, 100, adjustScale, [descriptionTextField]);
 
   // Filters application
   var applyFilter = function (newFilter, oldFilter) {
