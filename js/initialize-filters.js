@@ -41,9 +41,9 @@ window.initializeFilters = (function () {
     };
 
     // EventListeners registration
-    for (var i = 0; i < filters.length; i++) {
-      filters[i].addEventListener('click', modifyFilter);
-    }
+    filters.forEach(function (filter) {
+      filter.addEventListener('click', modifyFilter);
+    });
     document.addEventListener('keydown', filtersKeydownHandler);
 
     filters[0].click();
