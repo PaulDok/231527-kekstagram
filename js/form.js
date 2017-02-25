@@ -31,26 +31,46 @@
 
   showUploadAndHideEdit();
 
+  var isEnterOnCloseButton = function (event) {
+    // Enter event
+    if (window.eventChecker.isActivateEvent(event)) {
+      // Return true if Enter event occured only on close or submit buttons
+      switch (event.target) {
+        case uploadFormCancelButton:
+          return true;
+        case uploadFormSubmitButton:
+          return true;
+      }
+    }
+    return false;
+  };
+
+  var isEscapeNotOnText = function (event) {
+    if (window.eventChecker.isEscapeEvent(event)) {
+      if (event.target !== descriptionTextField) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Form open/close keydown handler
   var editKeydownHandler = function (event) {
-    if ((event.target === uploadFormCancelButton || event.target === uploadFormSubmitButton)
-      && window.eventChecker.isActivateEvent(event)) {
+    if (isEnterOnCloseButton(event)) {
       showUploadAndHideEdit();
-    } else if (event.target !== descriptionTextField) {
-      if (window.eventChecker.isEscapeEvent(event)) {
-        showUploadAndHideEdit();
-      }
+    } else if (isEscapeNotOnText(event)) {
+      showUploadAndHideEdit();
     }
   };
 
   // Show / hide edit form event listeners
-  uploadSelectInput.addEventListener('click', showEditAndHideUpload);
+  uploadSelectInput.addEventListener('change', showEditAndHideUpload);
   uploadFormCancelButton.addEventListener('click', showUploadAndHideEdit);
 
   // Image scaling
   var adjustScale = function (scale) {
     image.style.transform = 'scale(' + scale / 100 + ')';
-    resizeValueField.value = scale + '%';
+    resizeValueField.defaultValue = scale + '%';
   };
 
   // Last argument is a list of exception page elements - we don't want the callback
@@ -59,7 +79,7 @@
 
   // Filters application
   var applyFilter = function (newFilter, oldFilter) {
-    if (oldFilter) {
+    if (oldFilter !== null) {
       image.classList.remove('filter-' + oldFilter);
     }
     image.classList.add('filter-' + newFilter);

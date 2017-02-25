@@ -4,6 +4,7 @@ window.initializeFilters = (function () {
   return function (image, filters, callback, exceptions) {
     var currentFilter = null;
     var currentFilterIndex = 0;
+    var FILTER_PREVIEW_CLASS = 'upload-filter-preview';
 
     var nextFilter = function () {
       currentFilterIndex++;
@@ -27,6 +28,15 @@ window.initializeFilters = (function () {
       currentFilterIndex = filters.indexOf(event.target);
     };
 
+    var isActivateEventOnFilter = function (event) {
+      if (window.eventChecker.isActivateEvent(event)) {
+        if (event.target.classList.contains(FILTER_PREVIEW_CLASS)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     // Left / Right Keydown handler
     var filtersKeydownHandler = function (event) {
       if (exceptions.indexOf(event.target) === -1) {
@@ -36,6 +46,8 @@ window.initializeFilters = (function () {
         } else if (window.eventChecker.isRightEvent(event)) {
           event.preventDefault();
           nextFilter().click();
+        } else if (isActivateEventOnFilter(event)) {
+          event.target.click();
         }
       }
     };

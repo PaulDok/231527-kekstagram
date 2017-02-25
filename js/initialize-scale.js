@@ -18,13 +18,40 @@ window.initializeScale = (function () {
       callback(value);
     };
 
+    var isEnterOnButton = function (event, button) {
+      if (event.target === button) {
+        if (window.eventChecker.isActivateEvent(event)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    var isPlusKeyNotOnException = function (event) {
+      if (window.eventChecker.isPlusEvent(event)) {
+        // Check if the event's target is in the list of exceptions (elements we don't want to react on)
+        if (exceptions.indexOf(event.target) === -1) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    var isMinusKeyNotOnException = function (event) {
+      if (window.eventChecker.isMinusEvent(event)) {
+        // Check if the event's target is in the list of exceptions (elements we don't want to react on)
+        if (exceptions.indexOf(event.target) === -1) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     // + / - Keydown handler
     var zoomKeydownHandler = function (event) {
-      if ((event.target === resizeIncreaseButton && window.eventChecker.isActivateEvent(event)) ||
-        (window.eventChecker.isPlusEvent(event) && (exceptions.indexOf(event.target) === -1))) {
+      if (isEnterOnButton(event, resizeIncreaseButton) || isPlusKeyNotOnException(event)) {
         resizeIncreaseButton.click();
-      } else if ((event.target === resizeDecreaseButton && window.eventChecker.isActivateEvent(event)) ||
-        (window.eventChecker.isMinusEvent(event) && (exceptions.indexOf(event.target) === -1))) {
+      } else if (isEnterOnButton(event, resizeDecreaseButton) || isMinusKeyNotOnException(event)) {
         resizeDecreaseButton.click();
       }
     };
