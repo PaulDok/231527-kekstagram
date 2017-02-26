@@ -9,7 +9,7 @@
   var filters = document.querySelector('.filters');
 
   var sortByCommentsNumber = function (a, b) {
-    return a.comments.length - b.comments.length;
+    return b.comments.length - a.comments.length;;
   };
 
   var showGalleryOnEnter = function (event) {
